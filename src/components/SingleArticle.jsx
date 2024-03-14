@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchArticleById } from "../api";
+import { Link } from 'react-router-dom';
 
 const SingleArticle = () => {
     const { article_id } = useParams();
@@ -27,6 +28,9 @@ const SingleArticle = () => {
             <p>{singleArticle.body}</p> 
             <p>Votes: {singleArticle.votes}</p> 
             <p>Date: {singleArticle.created_at}</p> 
+            <nav>
+                <Link to={`/articles/${singleArticle.article_id}/comments`}>Comments</Link>
+            </nav>
         </section>
 );
 };

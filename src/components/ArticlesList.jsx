@@ -22,7 +22,6 @@ const Articles = () => {
                     <ul>
                         {articles.map((article) => {
                             return <ArticleCard key={article.article_id} article={article}/>
-
                         })}
                     </ul>
             </section>
