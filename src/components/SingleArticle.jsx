@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { fetchArticleById } from "../api";
+import { fetchArticleById, patchArticle } from "../api";
 import { Link } from 'react-router-dom';
 
 const SingleArticle = () => {
@@ -16,6 +16,19 @@ const SingleArticle = () => {
         });
     }, [article_id]);
 
+    const handleUpVoteClick= () => {
+
+        setSingleArticle(() => {
+        return {...singleArticle, votes: singleArticle.votes + 1};
+        })
+       
+        patchArticle(article_id).catch((err) => {
+            setSingleArticle(() => {
+                return {...singleArticle, votes: singleArticle.votes - 1};
+            });
+        });
+    };   
+
     return isLoading 
     ? (<p>Now Loading</p>)
     : (
@@ -26,7 +39,11 @@ const SingleArticle = () => {
             <h4>Author: {singleArticle.author}</h4>
             <p>Topic: {singleArticle.topic}</p> 
             <p>{singleArticle.body}</p> 
-            <p>Votes: {singleArticle.votes}</p> 
+            <button 
+                onClick={handleUpVoteClick}
+            >
+                Vote: {singleArticle.votes}
+            </button> 
             <p>Date: {singleArticle.created_at}</p> 
             <nav>
                 <Link to={`/articles/${singleArticle.article_id}/comments`}>Comments</Link>
@@ -36,3 +53,4 @@ const SingleArticle = () => {
 };
 
 export default SingleArticle;
+
